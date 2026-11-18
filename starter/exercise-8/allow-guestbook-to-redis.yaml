@@ -1,0 +1,30 @@
+# Sorties du guestbook: Redis (6379) et le DNS (53)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: guestbook-to-redis-and-dns
+  namespace: guestbook
+spec:
+  podSelector:
+    matchLabels:
+      TODO                      # les pods du guestbook
+  policyTypes: [Egress]
+  egress:
+    # Vers Redis: le namespace data ET les pods Redis (même élément "-")
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              TODO
+          podSelector:
+            matchLabels:
+              TODO
+      ports:
+        - port: TODO
+    # Vers le DNS du cluster: namespace kube-system, pods "k8s-app: kube-dns"
+    - to:
+        - TODO
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: TODO
+          protocol: TODO

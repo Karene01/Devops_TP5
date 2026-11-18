@@ -1,0 +1,18 @@
+# Le ConstraintTemplate "k8sallowedrepos" vient de la bibliothèque Gatekeeper:
+# https://open-policy-agent.github.io/gatekeeper-library/website/validation/allowedrepos
+# Appliquez d'abord le template de la bibliothèque, puis cette contrainte.
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAllowedRepos
+metadata:
+  name: allowed-repos
+spec:
+  enforcementAction: TODO
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]
+    namespaces: TODO
+  parameters:
+    repos:
+      - TODO      # préfixe de votre image
+      - TODO      # préfixe de l'image officielle Redis

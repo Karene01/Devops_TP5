@@ -1,0 +1,45 @@
+replicaCount: 2
+
+image:
+  repository: guestbook
+  tag: v1.0.0
+  # Never: the image is loaded into minikube with `minikube image load`
+  pullPolicy: Never
+
+service:
+  type: ClusterIP
+  port: 3000
+
+
+redis:
+  # Redis lives in the "data" namespace: the short name "redis" only resolves inside "data"
+  host: redis.data.svc.cluster.local
+  # Empty: Redis has no password (for now)
+  password: ""
+
+# Credentials for the upcoming "export messages to S3" feature.
+# TODO: move them somewhere safer before going to production
+aws:
+  accessKeyId: ""
+  secretAccessKey: ""
+  region: eu-west-3
+
+ingress:
+  enabled: true
+  # Ingress controller installed by `minikube addons enable ingress`
+  className: nginx
+  host: guestbook.local
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+

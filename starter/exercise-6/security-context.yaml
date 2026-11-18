@@ -1,0 +1,40 @@
+# Blocs à compléter puis à coller dans vos manifestes (ce fichier ne s'applique pas tel quel).
+# Les commentaires disent OU coller chaque bloc.
+
+# ---------------------------------------------------------------------------
+# 1. Redis: deploy/redis/redis-deployment.yaml, sous spec.template.spec
+# ---------------------------------------------------------------------------
+automountServiceAccountToken: TODO      # Redis appelle-t-il l'API Kubernetes ?
+securityContext:
+  runAsNonRoot: true
+  runAsUser: TODO                       # l'UID de l'utilisateur "redis" de l'image
+  runAsGroup: TODO
+  fsGroup: TODO                         # pour pouvoir écrire dans /data
+  seccompProfile:
+    type: TODO                          # le profil par défaut du runtime
+
+# 2. Redis: sous spec.template.spec.containers[0] (le conteneur redis)
+securityContext:
+  allowPrivilegeEscalation: TODO
+  readOnlyRootFilesystem: TODO
+  capabilities:
+    drop: [TODO]
+resources:
+  requests:
+    cpu: TODO
+    memory: TODO
+  limits:
+    cpu: TODO                           # le faux mineur ne doit pas dépasser cette valeur
+    memory: TODO
+
+# ---------------------------------------------------------------------------
+# 3. Guestbook: deploy/guestbook/templates/deployment.yaml, mêmes emplacements
+#    (sous spec.template.spec, puis dans le conteneur), avec runAsUser: 65532
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# 4. Namespaces: deploy/namespaces.yaml, sous metadata de chaque namespace
+# ---------------------------------------------------------------------------
+labels:
+  pod-security.kubernetes.io/warn: TODO
+  pod-security.kubernetes.io/enforce: TODO

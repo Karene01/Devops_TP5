@@ -1,0 +1,26 @@
+# Les ConstraintTemplates "k8sblockloadbalancer" et "k8sblocknodeport" viennent de la bibliothèque Gatekeeper:
+# https://open-policy-agent.github.io/gatekeeper-library/website/validation/block-loadbalancer-services
+# https://open-policy-agent.github.io/gatekeeper-library/website/validation/block-nodeport-services
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sBlockLoadBalancer
+metadata:
+  name: no-loadbalancer
+spec:
+  enforcementAction: TODO
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: [TODO]         # quel type de ressource ?
+    namespaces: TODO
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sBlockNodePort
+metadata:
+  name: no-nodeport
+spec:
+  enforcementAction: TODO
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: [TODO]
+    namespaces: TODO

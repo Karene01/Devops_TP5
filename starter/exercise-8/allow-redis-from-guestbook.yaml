@@ -1,0 +1,16 @@
+# Entrées de Redis: seulement les pods du guestbook. Redis n'a besoin d'aucune sortie.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: redis-from-guestbook
+  namespace: data
+spec:
+  podSelector:
+    matchLabels:
+      TODO                      # les pods Redis
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - TODO                  # namespace guestbook ET pods du guestbook
+      ports:
+        - port: TODO

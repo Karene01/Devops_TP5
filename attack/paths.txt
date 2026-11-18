@@ -1,0 +1,17 @@
+/
+/.env
+/.git/config
+/wp-login.php
+/admin
+/actuator/env
+/actuator/health
+/server-status
+/phpinfo.php
+/debug
+/env
+/info
+/metrics
+/healthz
+/lrange/guestbook
+/backup.zip
+/config.json
