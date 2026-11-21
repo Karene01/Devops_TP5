@@ -12,4 +12,5 @@ WORKDIR /app
 COPY --from=builder /app/app .
 COPY public/ ./public/
 EXPOSE 3000
+USER 65532:65532
 ENTRYPOINT ["./app"]

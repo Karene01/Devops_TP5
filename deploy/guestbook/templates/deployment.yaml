@@ -30,8 +30,6 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}
-            - secretRef:
-                name: {{ .Release.Name }}-aws
           # Readiness depends on Redis: no Redis = no traffic, but no restart
           readinessProbe:
             httpGet:

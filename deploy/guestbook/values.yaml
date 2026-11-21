@@ -19,10 +19,7 @@ redis:
 
 # Credentials for the upcoming "export messages to S3" feature.
 # TODO: move them somewhere safer before going to production
-aws:
-  accessKeyId: ""
-  secretAccessKey: ""
-  region: eu-west-3
+
 
 ingress:
   enabled: true
