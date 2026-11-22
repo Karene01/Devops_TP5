@@ -20,6 +20,13 @@ spec:
       labels:
         {{- include "guestbook.labels" . | nindent 8 }}
     spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -30,6 +37,11 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
           # Readiness depends on Redis: no Redis = no traffic, but no restart
           readinessProbe:
             httpGet:

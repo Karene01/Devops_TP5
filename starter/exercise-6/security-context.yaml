@@ -4,37 +4,51 @@
 # ---------------------------------------------------------------------------
 # 1. Redis: deploy/redis/redis-deployment.yaml, sous spec.template.spec
 # ---------------------------------------------------------------------------
-automountServiceAccountToken: TODO      # Redis appelle-t-il l'API Kubernetes ?
+automountServiceAccountToken: false      # Redis appelle-t-il l'API Kubernetes ?
 securityContext:
   runAsNonRoot: true
-  runAsUser: TODO                       # l'UID de l'utilisateur "redis" de l'image
-  runAsGroup: TODO
-  fsGroup: TODO                         # pour pouvoir écrire dans /data
+  runAsUser: 999                       # l'UID de l'utilisateur "redis" de l'image
+  runAsGroup: 999
+  fsGroup: 999                         # pour pouvoir écrire dans /data
   seccompProfile:
-    type: TODO                          # le profil par défaut du runtime
+    type: RuntimeDefault                         # le profil par défaut du runtime
 
 # 2. Redis: sous spec.template.spec.containers[0] (le conteneur redis)
 securityContext:
-  allowPrivilegeEscalation: TODO
-  readOnlyRootFilesystem: TODO
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
   capabilities:
-    drop: [TODO]
+    drop: ["ALL"]
 resources:
   requests:
-    cpu: TODO
-    memory: TODO
+    cpu: 50m
+    memory: 32Mi
   limits:
-    cpu: TODO                           # le faux mineur ne doit pas dépasser cette valeur
-    memory: TODO
+    cpu: 200m                       # le faux mineur ne doit pas dépasser cette valeur
+    memory: 128Mi
 
 # ---------------------------------------------------------------------------
 # 3. Guestbook: deploy/guestbook/templates/deployment.yaml, mêmes emplacements
 #    (sous spec.template.spec, puis dans le conteneur), avec runAsUser: 65532
 # ---------------------------------------------------------------------------
+# niveau spec.template.spec
+automountServiceAccountToken: false       # le guestbook n'appelle pas non plus l'API Kubernetes
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  seccompProfile:
+    type: RuntimeDefault
 
+# niveau conteneur
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop: ["ALL"]
 # ---------------------------------------------------------------------------
 # 4. Namespaces: deploy/namespaces.yaml, sous metadata de chaque namespace
 # ---------------------------------------------------------------------------
 labels:
-  pod-security.kubernetes.io/warn: TODO
-  pod-security.kubernetes.io/enforce: TODO
+  pod-security.kubernetes.io/warn: restricted
+  pod-security.kubernetes.io/enforce: restricted
